@@ -30,6 +30,10 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
+    {% load static %}
+    {% block header %}
+    	{% include "includes/header.html" %}
+    {% endblock %}
     {% block content %}
     {% endblock %}
     {% block footer %}
