@@ -13,3 +13,10 @@ def contact(request:HttpRequest) -> HttpResponse:
         "breadcrumb_span": "Contact Us"
     }
     return render(request, "sakartvelo/contact.html", context=context)
+
+def shop_grid(request:HttpRequest) -> HttpResponse:
+    context = {
+        "breadcrumb_h2": "Sakartvelo Shop",
+        "breadcrumb_span": "Shop"
+    }
+    return render(request, "sakartvelo/shop-grid.html", context=context)
