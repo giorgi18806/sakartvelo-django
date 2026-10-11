@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
+from django.views.generic import DetailView
 
-from sakartvelo.models import Category
+from sakartvelo.models import Product
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -20,3 +21,17 @@ def shop_grid(request:HttpRequest) -> HttpResponse:
         "breadcrumb_span": "Shop"
     }
     return render(request, "sakartvelo/shop-grid.html", context=context)
+
+
+class ProductDetailView(DetailView):
+    model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 'self.object' is the current Product instance being viewed
+        product = self.object
+
+        context["breadcrumb_h2"] = product.title
+        context["breadcrumb_second_option"] = "Shop"
+        context["breadcrumb_span"] = product.title
+        return context
