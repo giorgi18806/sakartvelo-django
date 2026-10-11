@@ -11,3 +11,6 @@ def index(request: HttpRequest) -> HttpResponse:
         "categories": categories,
     }
     return render(request, "sakartvelo/index.html", context=context)
+
+def contact(request:HttpRequest) -> HttpResponse:
+    return render(request, "sakartvelo/contact.html")

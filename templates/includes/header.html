@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-lg-3">
                   <div class="header__logo d-flex align-items-center">
-                    <a href="./index.html">
+                    <a href="{% url 'sakartvelo:index' %}">
                       <img src="{% static 'img/logo-2.png' %}" alt="Logo" class="img-fluid">
                     </a>
                     <p class="mb-0 ml-3 font-weight-bold">SAKARTVELO</p>
@@ -63,7 +63,7 @@
                                 </ul>
                             </li>
                             <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            <li><a href="{% url 'sakartvelo:contact' %}">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
