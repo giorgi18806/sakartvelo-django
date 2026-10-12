@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Customer, Product
+from .models import Category, Customer, Product, ContactMessage
 
 
 @admin.register(Category)
@@ -22,3 +22,17 @@ class CustomerAdmin(admin.ModelAdmin):
     list_display = ("title", "email", "phone", "is_active", "created_at")
     list_filter = ("is_active",)
     search_fields = ("title", "email", "phone")
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "email",
+        "is_processed",
+        "created_at",
+    )
+    list_filter = ("is_processed", "created_at")
+    search_fields = ("name", "email", "message")
+    readonly_fields = ("created_at", "updated_at")
