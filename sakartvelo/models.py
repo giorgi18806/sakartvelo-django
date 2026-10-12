@@ -58,3 +58,18 @@ class Customer(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+class ContactMessage(TimeStampedModel):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+    is_processed = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Contact message"
+        verbose_name_plural = "Contact messages"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.name} — {self.email}"
