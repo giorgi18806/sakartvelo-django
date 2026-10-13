@@ -39,7 +39,9 @@ class ContactView(CreateView):
         return super().form_valid(form)
 
 def shop_grid(request:HttpRequest) -> HttpResponse:
+    products = Product.objects.all()
     context = {
+        "products": products,
         "breadcrumb_h2": "Sakartvelo Shop",
         "breadcrumb_span": "Shop"
     }
