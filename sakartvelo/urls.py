@@ -12,8 +12,13 @@ urlpatterns = [
         views.ProductDetailView.as_view(),
         name="product-detail"
     ),
-    
-# Authentication
+    path(
+        "category/<int:category_id>/",
+        views.CategoryProductListView.as_view(),
+        name="category_products",
+    ),
+
+    # Authentication
     path(
         "register/",
         views.RegisterView.as_view(),
@@ -21,7 +26,7 @@ urlpatterns = [
     ),
     path(
         "login/",
-            auth_views.LoginView.as_view(
+        auth_views.LoginView.as_view(
             template_name="sakartvelo/login.html",
             redirect_authenticated_user=True,
         ),

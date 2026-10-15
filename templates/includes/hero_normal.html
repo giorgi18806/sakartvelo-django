@@ -7,13 +7,7 @@
             <i class="fa fa-bars"></i>
             <span>All Categories</span>
           </div>
-          {% if categories %}
-            <ul>
-              {% for category in categories %}
-                <li><a href="#">{{ category.title }}</a></li>
-              {% endfor %}
-            </ul>
-          {% endif %}
+          {% include "includes/sidebar_categories.html" %}
         </div>
       </div>
       <div class="col-lg-9">

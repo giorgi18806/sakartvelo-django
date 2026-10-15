@@ -4,13 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.db.models.functions import Lower
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 
 from sakartvelo.forms import ContactMessageForm
-from sakartvelo.models import Product, ContactMessage
+from sakartvelo.models import Product, ContactMessage, Category
 
 
 @login_required
@@ -80,7 +80,36 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+class CategoryProductListView(LoginRequiredMixin, ListView):
+    model = Product
+    template_name = "sakartvelo/shop-grid.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        self.category = get_object_or_404(
+            Category,
+            pk=self.kwargs["category_id"],
+            is_active=True,
+        )
+
+        return Product.objects.filter(
+            category=self.category,
+            is_active=True,
+        ).order_by("title")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["selected_category"] = self.category
+        context["breadcrumb_h2"] = self.category.title
+        context["breadcrumb_span"] = self.category.title
+
+        return context
+
+
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = "sakartvelo/register.html"
     success_url = reverse_lazy("sakartvelo:login")
+
+
