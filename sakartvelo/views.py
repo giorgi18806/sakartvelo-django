@@ -1,4 +1,7 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.shortcuts import render
@@ -10,16 +13,12 @@ from sakartvelo.forms import ContactMessageForm
 from sakartvelo.models import Product, ContactMessage
 
 
+@login_required
 def index(request: HttpRequest) -> HttpResponse:
     return render(request, "sakartvelo/index.html")
 
-# def contact(request:HttpRequest) -> HttpResponse:
-#     context = {
-#         "breadcrumb_h2": "Contact Us",
-#         "breadcrumb_span": "Contact Us"
-#     }
-#     return render(request, "sakartvelo/contact.html", context=context)
-class ContactView(CreateView):
+
+class ContactView(LoginRequiredMixin, CreateView):
     model = ContactMessage
     form_class = ContactMessageForm
     template_name = "sakartvelo/contact.html"
@@ -40,6 +39,7 @@ class ContactView(CreateView):
         )
         return super().form_valid(form)
 
+@login_required
 def shop_grid(request:HttpRequest) -> HttpResponse:
     query = request.GET.get('q', '').strip()
     category_id = request.GET.get('category', '').strip()
@@ -66,7 +66,7 @@ def shop_grid(request:HttpRequest) -> HttpResponse:
     return render(request, "sakartvelo/shop-grid.html", context=context)
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
@@ -78,3 +78,9 @@ class ProductDetailView(DetailView):
         context["breadcrumb_second_option"] = "Shop"
         context["breadcrumb_span"] = product.title
         return context
+
+
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = "sakartvelo/register.html"
+    success_url = reverse_lazy("sakartvelo:login")
