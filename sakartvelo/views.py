@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.db.models import Q
+from django.db.models.functions import Lower
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
@@ -39,7 +41,23 @@ class ContactView(CreateView):
         return super().form_valid(form)
 
 def shop_grid(request:HttpRequest) -> HttpResponse:
-    products = Product.objects.all()
+    query = request.GET.get('q', '').strip()
+    category_id = request.GET.get('category', '').strip()
+
+    # Start with active products
+    products = Product.objects.filter(is_active=True)
+
+    # Filter by text search (title or description)
+    if query:
+        query_lower = query.lower()
+
+        products = products.annotate(
+            title_lower=Lower('title'),
+            desc_lower=Lower('description')
+        ).filter(
+            Q(title_lower__contains=query_lower) | Q(desc_lower__contains=query_lower)
+        )
+
     context = {
         "products": products,
         "breadcrumb_h2": "Sakartvelo Shop",
