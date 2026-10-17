@@ -39,18 +39,60 @@ class ContactView(LoginRequiredMixin, CreateView):
         )
         return super().form_valid(form)
 
+# @login_required
+# def shop_grid(request:HttpRequest) -> HttpResponse:
+#     query = request.GET.get('q', '').strip()
+#     category_id = request.GET.get('category', '').strip()
+#
+#     # Start with active products
+#     products = Product.objects.filter(is_active=True)
+#
+#     # Filter by text search (title or description)
+#     if query:
+#         query_lower = query.lower()
+#
+#         products = products.annotate(
+#             title_lower=Lower('title'),
+#             desc_lower=Lower('description')
+#         ).filter(
+#             Q(title_lower__contains=query_lower) | Q(desc_lower__contains=query_lower)
+#         )
+#
+#     context = {
+#         "products": products,
+#         "breadcrumb_h2": "Sakartvelo Shop",
+#         "breadcrumb_span": "Shop"
+#     }
+#     return render(request, "sakartvelo/shop-grid.html", context=context)
+# Helper function to handle sorting selection safely
+def apply_sorting(queryset, request):
+    sort_option = request.GET.get('sort', '').strip()
+
+    allowed_sorts = {
+        'title': 'title',
+        '-title': '-title',
+        'price': 'price',
+        '-price': '-price',
+        '-created_at': '-created_at',
+        'created_at': 'created_at',
+    }
+
+    if sort_option in allowed_sorts:
+        return queryset.order_by(allowed_sorts[sort_option])
+
+    # Default fallback sorting
+    return queryset.order_by('title')
+
+
 @login_required
-def shop_grid(request:HttpRequest) -> HttpResponse:
+def shop_grid(request: HttpRequest) -> HttpResponse:
     query = request.GET.get('q', '').strip()
     category_id = request.GET.get('category', '').strip()
 
-    # Start with active products
     products = Product.objects.filter(is_active=True)
 
-    # Filter by text search (title or description)
     if query:
         query_lower = query.lower()
-
         products = products.annotate(
             title_lower=Lower('title'),
             desc_lower=Lower('description')
@@ -58,8 +100,15 @@ def shop_grid(request:HttpRequest) -> HttpResponse:
             Q(title_lower__contains=query_lower) | Q(desc_lower__contains=query_lower)
         )
 
+    if category_id:
+        products = products.filter(category_id=category_id)
+
+    # Apply sorting using our helper function
+    products = apply_sorting(products, request)
+
     context = {
         "products": products,
+        "categories": Category.objects.all(),
         "breadcrumb_h2": "Sakartvelo Shop",
         "breadcrumb_span": "Shop"
     }
@@ -80,6 +129,39 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+# class CategoryProductListView(LoginRequiredMixin, ListView):
+#     model = Product
+#     template_name = "sakartvelo/shop-grid.html"
+#     context_object_name = "products"
+#
+#     def get_queryset(self):
+#         self.category = get_object_or_404(
+#             Category,
+#             pk=self.kwargs["category_id"],
+#             is_active=True,
+#         )
+#
+#         return Product.objects.filter(
+#             category=self.category,
+#             is_active=True,
+#         ).order_by("title")
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#
+#         context["selected_category"] = self.category
+#         context["breadcrumb_h2"] = self.category.title
+#         context["breadcrumb_span"] = self.category.title
+#
+#         return context
+#
+#
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = "sakartvelo/register.html"
+    success_url = reverse_lazy("sakartvelo:login")
+
+
 class CategoryProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = "sakartvelo/shop-grid.html"
@@ -92,24 +174,19 @@ class CategoryProductListView(LoginRequiredMixin, ListView):
             is_active=True,
         )
 
-        return Product.objects.filter(
+        queryset = Product.objects.filter(
             category=self.category,
             is_active=True,
-        ).order_by("title")
+        )
+
+        # Apply sorting via helper function here as well
+        return apply_sorting(queryset, self.request)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context["selected_category"] = self.category
+        context["categories"] = Category.objects.all()  # Recommended if your sidebar needs categories
         context["breadcrumb_h2"] = self.category.title
         context["breadcrumb_span"] = self.category.title
-
         return context
-
-
-class RegisterView(CreateView):
-    form_class = UserCreationForm
-    template_name = "sakartvelo/register.html"
-    success_url = reverse_lazy("sakartvelo:login")
-
 

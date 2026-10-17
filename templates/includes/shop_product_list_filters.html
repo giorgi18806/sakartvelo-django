@@ -1,12 +1,49 @@
+{#<div class="filter__item">#}
+{#  <div class="row">#}
+{#    <div class="col-lg-4 col-md-5">#}
+{#      <div class="filter__sort">#}
+{#        <span>Sort By</span>#}
+{#        <select>#}
+{#          <option value="0">Name</option>#}
+{#          <option value="0">Price</option>#}
+{#        </select>#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="col-lg-4 col-md-4">#}
+{#      <div class="filter__found">#}
+{#        <h6><span>{{ products.count }}</span> Products found</h6>#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="col-lg-4 col-md-3">#}
+{#      <div class="filter__option">#}
+{#        <span class="icon_grid-2x2"></span>#}
+{#        <span class="icon_ul"></span>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
 <div class="filter__item">
   <div class="row">
     <div class="col-lg-4 col-md-5">
       <div class="filter__sort">
         <span>Sort By</span>
-        <select>
-          <option value="0">Name</option>
-          <option value="0">Price</option>
-        </select>
+        <form method="GET" action="" id="sort-form">
+          <!-- Preserve existing query parameters (like search query 'q' or category) when sorting -->
+          {% if request.GET.q %}
+            <input type="hidden" name="q" value="{{ request.GET.q }}">
+          {% endif %}
+
+          <select name="sort" onchange="document.getElementById('sort-form').submit()">
+            <option value="">Default Sorting</option>
+            <option value="title" {% if request.GET.sort == "title" %}selected{% endif %}>Name (A - Z)</option>
+            <option value="-title" {% if request.GET.sort == "-title" %}selected{% endif %}>Name (Z - A)</option>
+            <option value="price" {% if request.GET.sort == "price" %}selected{% endif %}>Price (Low &gt; High)</option>
+            <option value="-price" {% if request.GET.sort == "-price" %}selected{% endif %}>Price (High &gt; Low)
+            </option>
+            <option value="-created_at" {% if request.GET.sort == "-created_at" %}selected{% endif %}>Newest Arrivals
+            </option>
+          </select>
+        </form>
       </div>
     </div>
     <div class="col-lg-4 col-md-4">
