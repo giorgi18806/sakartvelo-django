@@ -1,6 +1,31 @@
-<div class="product__pagination">
-  <a href="#">1</a>
-  <a href="#">2</a>
-  <a href="#">3</a>
-  <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-</div>
+{% if is_paginated %}
+  <div class="product__pagination">
+    {# Previous page link #}
+    {% if page_obj.has_previous %}
+      <a href="?page=
+        {{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+        <i class="fa fa-long-arrow-left"></i>
+      </a>
+    {% endif %}
+
+    {# Page number links #}
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <a href="?page=
+          {{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
+           style="background: #7fad39; color: #ffffff; border-color: #7fad39;">{{ num }}</a>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page=
+          {{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {# Next page link #}
+    {% if page_obj.has_next %}
+      <a href="?page=
+        {{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+        <i class="fa fa-long-arrow-right"></i>
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
