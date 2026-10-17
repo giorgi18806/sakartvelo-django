@@ -1538,8 +1538,35 @@ ol {
 	color: #7fad39;
 }
 
+.filter__option span.active {
+    color: #7fad39 !important;
+}
+
 .product__item {
 	margin-bottom: 50px;
+}
+
+.product__item.product__item__list {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff;
+    margin-bottom: 30px;
+    border: 1px solid #ebebeb;
+    text-align: left;
+}
+
+.product__item.product__item__list .product__item__pic {
+    width: 270px;
+    min-width: 270px;
+    margin-bottom: 0;
+}
+
+.product__item.product__item__list .product__item__text {
+    padding: 30px;
+    text-align: left !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .product__item:hover .product__item__pic .product__item__pic__hover {

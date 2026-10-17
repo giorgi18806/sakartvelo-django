@@ -221,4 +221,40 @@
         $button.parent().find('input').val(newVal);
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+        const gridBtn = document.getElementById("grid-view-btn");
+        const listBtn = document.getElementById("list-view-btn");
+        const productContainer = document.getElementById("product-items-container");
+
+        if (gridBtn && listBtn && productContainer) {
+            gridBtn.addEventListener("click", function() {
+                gridBtn.classList.add("active");
+                listBtn.classList.remove("active");
+
+                const wrappers = productContainer.querySelectorAll(".product__item-wrapper");
+                wrappers.forEach(wrapper => {
+                    wrapper.className = "col-lg-4 col-md-6 col-sm-6 product__item-wrapper";
+                    const item = wrapper.querySelector(".product__item");
+                    if (item) {
+                        item.classList.remove("product__item__list");
+                    }
+                });
+            });
+
+            listBtn.addEventListener("click", function() {
+                listBtn.classList.add("active");
+                gridBtn.classList.remove("active");
+
+                const wrappers = productContainer.querySelectorAll(".product__item-wrapper");
+                wrappers.forEach(wrapper => {
+                    wrapper.className = "col-lg-12 product__item-wrapper";
+                    const item = wrapper.querySelector(".product__item");
+                    if (item) {
+                        item.classList.add("product__item__list");
+                    }
+                });
+            });
+        }
+    });
+
 })(jQuery);

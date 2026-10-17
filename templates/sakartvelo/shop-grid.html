@@ -20,13 +20,19 @@
           {% include "includes/sidebar_shop.html" %}
         </div>
         <div class="col-lg-9 col-md-7">
-{#          {% include "includes/sale_off_products.html" %}#}
+          {#          {% include "includes/sale_off_products.html" %}#}
           {% include "includes/shop_product_list_filters.html" %}
-          <div class="row">
+          <div class="row" id="product-items-container">
             {% if products %}
               {% for product in products %}
-                {% include "includes/product_item.html" %}
+                <div class="col-lg-4 col-md-6 col-sm-6 product__item-wrapper">
+                  {% include "includes/product_item.html" %}
+                </div>
               {% endfor %}
+            {% else %}
+              <div class="col-lg-12">
+                <p class="text-center">No products found matching your criteria.</p>
+              </div>
             {% endif %}
           </div>
           {% include "includes/pagination.html" %}
