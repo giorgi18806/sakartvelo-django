@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
-from .models import ContactMessage
+from .models import ContactMessage, Customer
 
 
 class ContactMessageForm(forms.ModelForm):
@@ -34,3 +35,17 @@ class ContactMessageForm(forms.ModelForm):
 
         for field_name, field in self.fields.items():
             field.widget.attrs.setdefault("class", "form-control")
+
+
+class CustomerRegistrationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Customer
+        fields = (
+            "username",
+            "title",
+            "email",
+            "phone",
+        )
+        labels = {
+            "title": "Full name",
+        }

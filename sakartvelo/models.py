@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -47,17 +48,21 @@ class Product(TimeStampedModel):
         return self.title
 
 
-class Customer(TimeStampedModel):
+class Customer(AbstractUser):
     title = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=32, blank=True)
-    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["title"]
+        verbose_name = "Customer"
+        verbose_name_plural = "Customers"
 
     def __str__(self):
-        return self.title
+        return self.title or self.username
 
 
 class ContactMessage(TimeStampedModel):

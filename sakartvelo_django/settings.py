@@ -109,6 +109,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = "sakartvelo.Customer"
+
 LOGIN_URL = "sakartvelo:login"
 LOGIN_REDIRECT_URL = "sakartvelo:index"
 LOGOUT_REDIRECT_URL = "sakartvelo:login"

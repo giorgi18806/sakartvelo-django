@@ -10,7 +10,7 @@ from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, ListView
 
-from sakartvelo.forms import ContactMessageForm
+from sakartvelo.forms import ContactMessageForm, CustomerRegistrationForm
 from sakartvelo.models import Product, ContactMessage, Category
 
 
@@ -142,7 +142,7 @@ class CategoryProductListView(LoginRequiredMixin, ListView):
 
 
 class RegisterView(CreateView):
-    form_class = UserCreationForm
+    form_class = CustomerRegistrationForm
     template_name = "sakartvelo/register.html"
     success_url = reverse_lazy("sakartvelo:login")
 
