@@ -1,0 +1,21 @@
+<!-- Categories Section Begin -->
+<section class="categories">
+  <div class="container">
+    <div class="row">
+      <div class="categories__slider owl-carousel">
+        {% if categories %}
+          {% for category in categories %}
+            <div class="col-lg-3">
+              <div class="categories__item set-bg" data-setbg="static/img/categories/cat-{{ category.image }}.png">
+                <a href="{% url 'sakartvelo:category_products' category.id %}">
+                  {{ category.title }}
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Categories Section End -->

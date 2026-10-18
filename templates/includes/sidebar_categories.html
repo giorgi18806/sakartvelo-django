@@ -1,0 +1,7 @@
+{% if categories %}
+  <ul>
+    {% for category in categories %}
+      <li><a href="{% url 'sakartvelo:category_products' category.id %}">{{ category.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
