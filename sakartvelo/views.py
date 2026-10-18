@@ -99,6 +99,10 @@ def shop_grid(request: HttpRequest) -> HttpResponse:
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
+    def get_queryset(self):
+        # Restrict the queryset so only active products can be retrieved
+        return super().get_queryset().filter(is_active=True)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # 'self.object' is the current Product instance being viewed
