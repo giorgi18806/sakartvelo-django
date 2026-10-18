@@ -120,6 +120,10 @@ LOGOUT_REDIRECT_URL = "sakartvelo:login"
 
 STATIC_URL = "static/"
 
+# Додайте налаштування для завантажених користувачами файлів (Media)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
