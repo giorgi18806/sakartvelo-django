@@ -6,7 +6,7 @@
         {% if categories %}
           {% for category in categories %}
             <div class="col-lg-3">
-              <div class="categories__item set-bg" data-setbg="static/img/categories/cat-{{ category.title }}.png">
+              <div class="categories__item set-bg" data-setbg="static/img/categories/cat-{{ category.image }}.png">
                 <a href="{% url 'sakartvelo:category_products' category.id %}">
                   {{ category.title }}
                 </a>
