@@ -1,3 +1,7 @@
 .idea
 venv
 __pycache__
+# Flake8 config and caching folders
+.flake8
+.pytest_cache/
+.cache/

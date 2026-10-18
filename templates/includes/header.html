@@ -30,14 +30,14 @@
               </ul>
             </div>
             {% if user.is_authenticated %}
-            <span>Hello, {{ user.username }}!</span>
+              <span>Hello, {{ user.username }}!</span>
 
-            <form method="post"
-                  action="{% url 'sakartvelo:logout' %}"
-                  style="display: inline;">
-              {% csrf_token %}
-              <button type="submit">Log out</button>
-            </form>
+              <form method="post"
+                    action="{% url 'sakartvelo:logout' %}"
+                    style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+              </form>
             {% else %}
               <div class="header__top__right__auth">
                 <a href="{% url 'sakartvelo:login' %}"><i class="fa fa-user"></i> Login</a>

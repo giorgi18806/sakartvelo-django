@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -135,7 +134,7 @@ class CategoryProductListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["selected_category"] = self.category
-        context["categories"] = Category.objects.all()  # Recommended if your sidebar needs categories
+        context["categories"] = Category.objects.all()
         context["breadcrumb_h2"] = self.category.title
         context["breadcrumb_span"] = self.category.title
         return context
@@ -145,4 +144,3 @@ class RegisterView(CreateView):
     form_class = CustomerRegistrationForm
     template_name = "sakartvelo/register.html"
     success_url = reverse_lazy("sakartvelo:login")
-
