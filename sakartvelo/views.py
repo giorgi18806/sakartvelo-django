@@ -89,7 +89,7 @@ def shop_grid(request: HttpRequest) -> HttpResponse:
         "products": page_obj,  # Pass the page object instead of the raw queryset
         "is_paginated": page_obj.has_other_pages(),
         "page_obj": page_obj,
-        "categories": Category.objects.all(),
+        "categories": Category.objects.filter(is_active=True),
         "breadcrumb_h2": "Sakartvelo Shop",
         "breadcrumb_span": "Shop"
     }
@@ -98,6 +98,10 @@ def shop_grid(request: HttpRequest) -> HttpResponse:
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
+
+    def get_queryset(self):
+        # Restrict the queryset so only active products can be retrieved
+        return super().get_queryset().filter(is_active=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,7 +138,7 @@ class CategoryProductListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["selected_category"] = self.category
-        context["categories"] = Category.objects.all()
+        context["categories"] = Category.objects.filter(is_active=True)
         context["breadcrumb_h2"] = self.category.title
         context["breadcrumb_span"] = self.category.title
         return context

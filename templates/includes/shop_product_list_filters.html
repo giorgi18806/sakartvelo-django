@@ -9,6 +9,11 @@
             <input type="hidden" name="q" value="{{ request.GET.q }}">
           {% endif %}
 
+          <!-- Preserve selected category when sorting -->
+          {% if request.GET.category %}
+            <input type="hidden" name="category" value="{{ request.GET.category }}">
+          {% endif %}
+
           <select name="sort" onchange="document.getElementById('sort-form').submit()">
             <option value="">Default Sorting</option>
             <option value="title" {% if request.GET.sort == "title" %}selected{% endif %}>Name (A - Z)</option>
