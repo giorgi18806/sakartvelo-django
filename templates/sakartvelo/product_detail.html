@@ -23,13 +23,13 @@
                    src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}" alt="">
             </div>
             <div class="product__details__pic__slider owl-carousel">
-              <img data-imgbigurl="{{ product.image.url }}"
+              <img data-imgbigurl="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}"
                    src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}" alt="">
-              <img data-imgbigurl="{{ product.image.url }}"
+              <img data-imgbigurl="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}"
                    src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}" alt="">
-              <img data-imgbigurl="{{ product.image.url }}"
+              <img data-imgbigurl="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}"
                    src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}" alt="">
-              <img data-imgbigurl="{{ product.image.url }}"
+              <img data-imgbigurl="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}"
                    src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/product/default.jpg' %}{% endif %}" alt="">
             </div>
           </div>
